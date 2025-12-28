@@ -15,7 +15,7 @@ Scan your namespaces to check for migration risks when moving workloads between 
   - cloud-specific storage
   - deprecated ingress annotations
   - missing resource limits
-- Web UI with **loading spinner** and **bold, clean output**.  
+- Web UI with clean output**.  
 - Calculate **readiness score** per namespace.  
 
 ---
