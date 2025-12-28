@@ -1,4 +1,4 @@
-README.md (Simplified)
+
 # Kubernetes Migration Readiness Scanner
 
 A simple **Kubernetes Migration Readiness Scanner** built with Python and Flask.  
