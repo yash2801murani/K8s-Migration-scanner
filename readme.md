@@ -23,7 +23,7 @@ Scan your namespaces to check for migration risks when moving workloads between 
 ## Project Structure
 
 
-
+```bash
 k8s-migration-readiness/
 ├── main.py # Flask web app
 ├── scanner.py # CLI / scanning logic
@@ -36,7 +36,7 @@ k8s-migration-readiness/
 ├── requirements.txt # Python dependencies
 ├── sample.yaml # Sample namespace project for testing
 
-
+```
 ---
 
 ## Installation (Local)
@@ -68,9 +68,10 @@ flask run
 Open your browser at http://localhost:5000
 
 Make sure you have kubeconfig configured to access your cluster.
-
+```
 Usage
 
+```bash
 Enter the namespace name in the input field.
 
 Click Scan → a loading spinner appears.
@@ -78,17 +79,20 @@ Click Scan → a loading spinner appears.
 After 4–5 seconds, results display in bold black text with ✅✔️, ⚠️ warnings, ❌ errors.
 
 Check readiness score to evaluate migration risks.
+```
 
 Notes
 
+```bash
 Requires read access to cluster objects (pods, deployments, services, PVCs, configmaps, secrets, serviceaccounts, ingress).
 
 Can be run locally with kubeconfig.
+```
 
 Developed By
 
 Yash Murani
-You can optionally add a watermark in the UI: “Developed by Yash”.
+
 
 License
 
