@@ -70,26 +70,7 @@ Open your browser at http://localhost:5000
 Make sure you have kubeconfig configured to access your cluster.
 ```
 
-Installation using docker 
 
-```bash
-
-Optional: Run using Docker
-
-You can also run the scanner using a pre-built Docker image.
-
-docker pull yash1231/k8s-migration-scanner:latest
-docker run -it --rm \
-    -p 5000:5000 \
-    -v ~/.kube:/root/.kube:ro \
-    yashmurani/k8s-migration-scanner:latest
-
-
-Access the UI at http://localhost:5000
-
--v ~/.kube:/root/.kube:ro → mounts your kubeconfig to allow scanning the cluster
-
-```
 Usage
 
 ```bash
