@@ -1,0 +1,109 @@
+# ----------------------------
+# Namespace
+# ----------------------------
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: migration-test
+---
+# ----------------------------
+# ServiceAccount (Cloud IAM)
+# ----------------------------
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: app-sa
+  namespace: migration-test
+  annotations:
+    eks.amazonaws.com/role-arn: arn:aws:iam::123456789012:role/demo-role
+---
+# ----------------------------
+# PersistentVolumeClaim
+# ----------------------------
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: app-pvc
+  namespace: migration-test
+spec:
+  accessModes:
+  - ReadWriteOnce
+  storageClassName: gp2
+  resources:
+    requests:
+      storage: 5Gi
+---
+# ----------------------------
+# Deployment
+# ----------------------------
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: web-app
+  namespace: migration-test
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: web
+  template:
+    metadata:
+      labels:
+        app: web
+    spec:
+      serviceAccountName: app-sa
+      nodeSelector:
+        eks.amazonaws.com/nodegroup: workers
+      containers:
+      - name: web
+        image: 123456789012.dkr.ecr.ap-south-1.amazonaws.com/web:latest
+        ports:
+        - containerPort: 80
+        volumeMounts:
+        - name: host-vol
+          mountPath: /data
+      volumes:
+      - name: host-vol
+        hostPath:
+          path: /var/lib/data
+          type: Directory
+---
+# ----------------------------
+# Service (LoadBalancer)
+# ----------------------------
+apiVersion: v1
+kind: Service
+metadata:
+  name: web-service
+  namespace: migration-test
+spec:
+  type: LoadBalancer
+  selector:
+    app: web
+  ports:
+  - port: 80
+    targetPort: 80
+---
+# ----------------------------
+# Ingress (Cloud-specific)
+# ----------------------------
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: web-ingress
+  namespace: migration-test
+  annotations:
+    kubernetes.io/ingress.class: alb
+    alb.ingress.kubernetes.io/scheme: internet-facing
+spec:
+  rules:
+  - host: web.example.com
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: web-service
+            port:
+              number: 80

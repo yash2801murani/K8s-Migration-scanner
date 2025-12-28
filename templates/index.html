@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>K8s Migration Scanner</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>K8S Migration Scanner</h1>
+        <form id="scanForm">
+            <input type="text" id="namespace" name="namespace" placeholder="Enter namespace" required>
+            <button type="submit">Scan</button>
+        </form>
+
+        <!-- Loading spinner -->
+        <div id="loading" style="display:none;">
+            <div class="spinner"></div>
+            <p>Scanning... Please wait</p>
+        </div>
+
+        <div id="results"></div>
+
+            <!-- <B><div class="footer">Developed by Yash Murani</div></B> -->
+
+    </div>
+
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>
